@@ -26,7 +26,9 @@ RUN wget "${MINICONDA_URL}" -O miniconda.sh -q && \
     echo "conda activate base" >> ~/.bashrc && \
     find /usr/local/conda/ -follow -type f -name '*.a' -delete && \
     find /usr/local/conda/ -follow -type f -name '*.js.map' -delete && \
-    /usr/local/conda/bin/conda clean -afy
+    /usr/local/conda/bin/conda clean -afy && \
+    ln -s /usr/local/conda/bin/conda /usr/local/bin/conda
+    
 
 ENV PATH /usr/local/conda/bin:$PATH
 
