@@ -13,8 +13,10 @@ LABEL org.opencontainers.image.title="${DISTRO}" \
 
 RUN yum install -y \
         epel-release \
-        langpacks-en glibc-all-langpacks \
+        langpacks-en glibc-all-langpacks glibc-locale-source \
+        procps-ng \
         which \
         wget && \
-    yum clean all
+    yum clean all && \
+    localedef --no-archive -i en_US -f UTF-8 en_US.UTF-8
 
