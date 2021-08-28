@@ -43,6 +43,7 @@ function generateDistro () {
     CURL_CMD=$(echo "curl -L -s --retry 5 --retry-delay 5 ${DOCKER_REGISTRY_URL}/${repo}/tags | jq '.results | .[] | (select(.name==\""${version}"\")) | .name ' | wc -l")
   
     already_exist=$(eval ${CURL_CMD})
+    already_exist=0
   
     echo -e "################################################################################"
     echo -e "### <<< START ${distroVersion}${suffix}"
@@ -93,10 +94,12 @@ case "${option}" in
     ;;
   distro+sdk)
     prefix="4geniac/"
-    suffix="_sdk"
     template="template/distroSdk.Dockerfile"
-    optArgs=""
-    generateDistro
+    while read condaVersion; do
+      optArgs="--build-arg CONDA_RELEASE=\"${condaVersion% *}\""
+      suffix="_sdk-conda-${condaVersion% *}"
+      generateDistro
+    done < ${CONDA_RELEASE_FILE}
     ;;
   -h|--help)
     usage

@@ -6,9 +6,9 @@ This repository provides a script to build and push on [4geniac](https://hub.doc
 
 The script `generateDistro.sh` allows the generation of the containers for several community-supported Linux distributions which are binary-compatible with Red Hat Enterprise Linux (RHEL). For each Linux distribution version listed in the file `linuxDistroVersion.txt`, it outputs a bash script that can build and push on the `4geniac` docker hub registry following:
 
-* the `distro/version` with a minimal Linux
-* the `distro/version_sdk` with development tools (which are required when a tool is installed from source by geniac)
-* all the possible `distro/version_conda-release`'s where `release` takes all the values listed in the first column of the file `condaRelease.txt`
+* the `distro/version` with a minimal Linux `distro`
+* all the possible `distro/version_conda-release`'s where `release` takes all the values listed in the first column of the file `condaRelease.txt`. This tag bootstraps from the `distro/version` tag.
+* the `distro/version_sdk-conda-release` with development tools (which are required when a tool is installed from source by geniac, such as gcc, g++, cmake3, etc.) and conda. This tag bootstraps from the `distro/version_conda-release` tag.
 
 Note that any tag already existing on the `4geniac` docker hub registry will be ignored in the output.
 
