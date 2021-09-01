@@ -12,7 +12,7 @@ LABEL org.opencontainers.image.title="${DISTRO}" \
       org.opencontainers.image.created="${BUILD_DATE}"\
       org.opencontainers.image.source="https://github.com/bioinfo-pf-curie/4geniac"
 
-RUN yum install -y \
+RUN dnf install -y \
          autoconf \
          automake \
          binutils \
@@ -25,5 +25,5 @@ RUN yum install -y \
          libtool \
          libstdc++-devel \
          pkgconf && \
-    yum clean all
+    dnf clean all
 
