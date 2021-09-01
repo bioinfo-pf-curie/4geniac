@@ -65,6 +65,7 @@ set -oue pipefail
 #########################
 
 DOCKER_REGISTRY_URL="https://registry.hub.docker.com/v2/repositories/4geniac"
+DOCKER_REGISTRY_URL="https://registry.hub.docker.com/v2/repositories/4geniac"
 GIT_COMMIT=$(git rev-parse --short HEAD)
 LINUX_DISTRO_FILE="linuxDistroVersion.txt"
 CONDA_RELEASE_FILE="condaRelease.txt"
@@ -85,6 +86,7 @@ function generateDistro () {
     repo=${distro#4geniac/}
     repo=${repo%/*}
     version=${distroVersion##*:}${suffix}
+    versionNumber=$(echo ${distroVersion} | sed -e 's/.*://g' | sed -e 's/\..*//g')
   
     CURL_CMD=$(echo "curl -L -s --retry 5 --retry-delay 5 ${DOCKER_REGISTRY_URL}/${repo}/tags | jq '.results | .[] | (select(.name==\""${version}"\")) | .name ' | wc -l")
   
@@ -103,7 +105,7 @@ function generateDistro () {
          --build-arg BUILD_DATE=\"\$(date --rfc-3339=seconds)\" \\
          --build-arg GIT_COMMIT=\""${GIT_COMMIT}"\" \\
          ${optArgs} \\
-         -t ${docker_push_folder}${repo}:${version} -f ${template} template"
+         -t ${docker_push_folder}${repo}:${version} -f ${template}${versionNumber}.Dockerfile template"
   
       echo -e "\necho \"push: ${docker_push_folder}${repo}:${version}\"\n"
       echo -e "docker push ${docker_push_folder}${repo}:${version}\n"
@@ -127,13 +129,13 @@ case "${option}" in
   distro)
     prefix=""
     suffix=""
-    template="template/distro.Dockerfile"
+    template="template/distro"
     optArgs=""
     generateDistro
     ;;
   distro+conda)
     prefix="4geniac/"
-    template="template/distroConda.Dockerfile"
+    template="template/distroConda"
     while read condaVersion; do
       optArgs="--build-arg CONDA_RELEASE=\"${condaVersion% *}\" --build-arg SHA256SUM=\"${condaVersion#* }\""
       suffix="_conda-${condaVersion% *}"
@@ -142,7 +144,7 @@ case "${option}" in
     ;;
   distro+sdk)
     prefix="4geniac/"
-    template="template/distroSdk.Dockerfile"
+    template="template/distroSdk"
     while read condaVersion; do
       optArgs="--build-arg CONDA_RELEASE=\"${condaVersion% *}\""
       suffix="_sdk-conda-${condaVersion% *}"
