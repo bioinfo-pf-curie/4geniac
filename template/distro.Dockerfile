@@ -11,10 +11,8 @@ LABEL org.opencontainers.image.title="${DISTRO}" \
       org.opencontainers.image.created="${BUILD_DATE}"\
       org.opencontainers.image.source="https://github.com/bioinfo-pf-curie/4geniac"
 
-RUN yum install -y dnf epel-release
-
-RUN dnf install -y \
-        langpacks-en glibc-en-langpacks glibc-locale-source \
+RUN dnf install -y epel-release \
+        langpacks-en glibc-langpack-en glibc-locale-source \
         procps-ng \
         which \
         wget && \
