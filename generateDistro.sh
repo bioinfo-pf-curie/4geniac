@@ -109,6 +109,7 @@ function generateDistro () {
   
       echo -e "\necho \"push: ${docker_push_folder}${repo}:${version}\"\n"
       echo -e "docker push ${docker_push_folder}${repo}:${version}\n"
+      echo -e "\n# TAG: 4geniac/${repo}:${version}\n"
     else
       echo -e "\n# INFO: tag 4geniac/${repo}:${version} already exists on docker hub\n"
     fi
