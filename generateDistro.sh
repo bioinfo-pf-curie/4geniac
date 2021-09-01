@@ -1,8 +1,55 @@
 #! /bin/bash
 
-option=$1
-condaVersion=$2
-sha256sumConda=$3
+#################
+### Functions ###
+#################
+function usage () {
+  echo -e "Usage: bash $0 -d <distro-value> [ -r <registry> ] [ -f <false|true> ]\n\n"
+  echo -e "The script generates a script to build and push one of these linux <distro-value>:"
+  echo -e "\t-d name of the distro among the following possibilities:"
+  echo -e "\t\t* distro: the minimal distro"
+  echo -e "\t\t* distro+conda: the minimal distro with miniconda"
+  echo -e "\t\t* distro+sdk: the minimal distro with development tools"
+  echo -e "\t-r docker registry (default is '4geniac/')"
+  echo -e "\t-f generate and push the container even if they exist on the registry (default is false)"
+  echo ""
+}
+
+### push on any other registry (instead of 4geniac on docker hub)
+docker_push_folder="4geniac/"
+force_mode="false"
+mandatory_arg=0
+
+while getopts d:f:r:h: arg_value; do
+    case "${arg_value}" in
+        d)
+            option=${OPTARG}
+            mandatory_arg=$((${mandatory_arg} + 1))
+            ;;
+        f)
+            force_mode=${OPTARG}
+            ;;
+        r)
+            docker_push_folder=${OPTARG}
+            ;;
+        h | *)
+            usage "$0" ; exit 1
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+### check that mandatory variables have been provided
+if [[ ${mandatory_arg} -ne 1 ]]
+then
+    echo -e "\nERROR: '-d' option must be specified\n"
+    usage "$0"
+    exit 1
+fi
+
+##############
+### Error  ###
+##############
 
 set -oue pipefail
 
@@ -16,18 +63,10 @@ LINUX_DISTRO_FILE="linuxDistroVersion.txt"
 CONDA_RELEASE_FILE="condaRelease.txt"
 
 
+
 #################
 ### Functions ###
 #################
-function usage () {
-  echo -e "Usage: bash $0 <distro-value>\n\n"
-  echo -e "The script generates a script to build and push one of these linux <distro-value>:"
-  echo -e "\t- distro: the minimal distro"
-  echo -e "\t- distro+conda: the minimal distro with miniconda"
-  echo -e "\t- distro+sdk: the minimal distro with developemt tools"
-  echo ""
-}
-
 function generateDistro () {
   echo "#! /bin/bash"
   echo -e "\nset -oeu pipefail\n"
@@ -43,7 +82,9 @@ function generateDistro () {
     CURL_CMD=$(echo "curl -L -s --retry 5 --retry-delay 5 ${DOCKER_REGISTRY_URL}/${repo}/tags | jq '.results | .[] | (select(.name==\""${version}"\")) | .name ' | wc -l")
   
     already_exist=$(eval ${CURL_CMD})
-    already_exist=0
+    if [[ ${force_mode} == "true" ]]; then
+      already_exist=0
+    fi
   
     echo -e "################################################################################"
     echo -e "### <<< START ${distroVersion}${suffix}"
@@ -57,8 +98,8 @@ function generateDistro () {
          ${optArgs} \\
          -t 4geniac/${repo}:${version} -f ${template} template"
   
-      echo -e "\necho \"push: 4geniac/${repo}:${version}\"\n"
-      echo -e "sudo docker push 4geniac/${repo}:${version}\n"
+      echo -e "\necho \"push: ${docker_push_folder}${repo}:${version}\"\n"
+      echo -e "sudo docker push ${docker_push_folder}${repo}:${version}\n"
     else
       echo -e "\n# INFO: tag 4geniac/${repo}:${version} already exists on docker hub\n"
     fi
@@ -105,7 +146,7 @@ case "${option}" in
     usage
     ;;
   *)
-      echo -e "ERROR: unknown <distro-value>\n" ; usage; exit 1
+      echo -e "ERROR: unknown <distro-value>\n" ; usage "$0"; exit 1
       ;;
 esac
 exit 0
