@@ -10,7 +10,7 @@ function usage () {
   echo -e "\t\t* distro: the minimal distro"
   echo -e "\t\t* distro+conda: the minimal distro with miniconda"
   echo -e "\t\t* distro+sdk: the minimal distro with development tools"
-  echo -e "\t-r docker registry (default is '4geniac/')"
+  echo -e "\t-r docker registry, it should end with a '/' (default is '4geniac/')"
   echo -e "\t-f generate and push the container even if they exist on the registry (default is false)"
   echo ""
 }
@@ -39,12 +39,19 @@ while getopts d:f:r:h: arg_value; do
 done
 shift $((OPTIND-1))
 
-### check that mandatory variables have been provided
-if [[ ${mandatory_arg} -ne 1 ]]
-then
-    echo -e "\nERROR: '-d' option must be specified\n"
+
+if [[ ${docker_push_folder: -1} != "/" ]]; then
+    echo -e "\nERROR: the value in '-r' option must end with a '/'\n"
     usage "$0"
-    exit 1
+  exit 1
+fi
+
+
+### check that mandatory variables have been provided
+if [[ ${mandatory_arg} -ne 1 ]]; then
+  echo -e "\nERROR: '-d' option must be specified\n"
+  usage "$0"
+  exit 1
 fi
 
 ##############
@@ -96,10 +103,10 @@ function generateDistro () {
          --build-arg BUILD_DATE=\"\$(date --rfc-3339=seconds)\" \\
          --build-arg GIT_COMMIT=\""${GIT_COMMIT}"\" \\
          ${optArgs} \\
-         -t 4geniac/${repo}:${version} -f ${template} template"
+         -t ${docker_push_folder}${repo}:${version} -f ${template} template"
   
       echo -e "\necho \"push: ${docker_push_folder}${repo}:${version}\"\n"
-      echo -e "sudo docker push ${docker_push_folder}${repo}:${version}\n"
+      echo -e "docker push ${docker_push_folder}${repo}:${version}\n"
     else
       echo -e "\n# INFO: tag 4geniac/${repo}:${version} already exists on docker hub\n"
     fi

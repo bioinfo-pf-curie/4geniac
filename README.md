@@ -15,15 +15,15 @@ Note that any tag already existing on the `4geniac` docker hub registry will be 
 ```
 ### For distro/version
 bash generateDistro.sh -d distro > scriptDistro.sh
-bash scriptDistro.sh
+sudo bash scriptDistro.sh
 
 ### For distro/version_conda-release's
 bash generateDistro.sh -d distro+conda > scriptDistroConda.sh
-bash scriptDistroConda.sh
+sudo bash scriptDistroConda.sh
 
 ### For distro/version_sdk
 bash generateDistro.sh -d distro+sdk > scriptDistroSdk.sh
-bash scriptDistroSdk.sh
+sudo bash scriptDistroSdk.sh
 ```
 
 ## Resources
