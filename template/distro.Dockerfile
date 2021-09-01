@@ -17,7 +17,7 @@ RUN dnf install -y \
         procps-ng \
         which \
         wget && \
-    dnf install -y langpacks-en glibc-langpacks-en glibc-locale-source || true && \
+    dnf install -y langpacks-en glibc-langpack-en glibc-locale-source || true && \
     dnf clean all && \
     localedef --no-archive -i en_US -f UTF-8 en_US.UTF-8
 
