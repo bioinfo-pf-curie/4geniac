@@ -14,7 +14,6 @@ LABEL org.opencontainers.image.title="${DISTRO}" \
 RUN yum install -y dnf epel-release
 
 RUN dnf install -y \
-        langpacks-en glibc-all-langpacks glibc-locale-source \
         procps-ng \
         which \
         wget && \
