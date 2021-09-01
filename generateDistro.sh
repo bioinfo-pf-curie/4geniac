@@ -20,7 +20,7 @@ docker_push_folder="4geniac/"
 force_mode="false"
 mandatory_arg=0
 
-while getopts d:f:r:h: arg_value; do
+while getopts d:f:r:h arg_value; do
     case "${arg_value}" in
         d)
             option=${OPTARG}
@@ -33,7 +33,7 @@ while getopts d:f:r:h: arg_value; do
             docker_push_folder=${OPTARG}
             ;;
         h | *)
-            usage "$0" ; exit 1
+            >&2 usage "$0" ; exit 1
             ;;
     esac
 done
@@ -41,16 +41,16 @@ shift $((OPTIND-1))
 
 
 if [[ ${docker_push_folder: -1} != "/" ]]; then
-    echo -e "\nERROR: the value in '-r' option must end with a '/'\n"
-    usage "$0"
+    >&2 echo -e "\nERROR: the value in '-r' option must end with a '/'\n"
+    >&2 usage "$0"
   exit 1
 fi
 
 
 ### check that mandatory variables have been provided
 if [[ ${mandatory_arg} -ne 1 ]]; then
-  echo -e "\nERROR: '-d' option must be specified\n"
-  usage "$0"
+  >&2 echo -e "\nERROR: '-d' option must be specified\n"
+  >&2 usage "$0"
   exit 1
 fi
 
@@ -152,10 +152,10 @@ case "${option}" in
     done < ${CONDA_RELEASE_FILE}
     ;;
   -h|--help)
-    usage
+    >&2 usage "$0"
     ;;
   *)
-      echo -e "ERROR: unknown <distro-value>\n" ; usage "$0"; exit 1
+      >&2 echo -e "ERROR: unknown <distro-value>\n" ; >&2 usage "$0"; exit 1
       ;;
 esac
 exit 0
