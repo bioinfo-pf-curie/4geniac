@@ -22,6 +22,7 @@ RUN dnf install -y \
          gcc-gfortran \
          glibc-devel \
          make \
+         libarchive \
          libtool \
          libstdc++-devel \
          pkgconfig && \
