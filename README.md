@@ -37,5 +37,5 @@ sudo bash scriptDistroSdk.sh
 
 ## Citation
 
-[Allain F, Roméjon J, La Rosa P et al. Geniac: Automatic Configuration GENerator and Installer for nextflow pipelines. Open Research Europe 2021, 1:76](https://open-research-europe.ec.europa.eu/articles/1-76)
+[Allain F, Roméjon J, La Rosa P et al. Geniac: Automatic Configuration GENerator and Installer for nextflow pipelines. Open Research Europe 2022, 1:76](https://open-research-europe.ec.europa.eu/articles/1-76)
 

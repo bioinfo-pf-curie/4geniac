@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.title="${DISTRO}" \
 RUN dnf install -y epel-release \
         langpacks-en glibc-langpack-en glibc-locale-source \
         procps-ng \
-        which \
+        which findutils \
         wget && \
     dnf clean all && \
     localedef --no-archive -i en_US -f UTF-8 en_US.UTF-8

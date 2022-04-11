@@ -1,4 +1,3 @@
-centos:8.4.2105
-almalinux:8.4
-rockylinux/rockylinux:8.4
+almalinux:8.5
+rockylinux:8.5
 centos:7.9.2009
