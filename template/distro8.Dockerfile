@@ -12,6 +12,7 @@ LABEL org.opencontainers.image.title="${DISTRO}" \
       org.opencontainers.image.source="https://github.com/bioinfo-pf-curie/4geniac"
 
 RUN dnf install -y epel-release \
+        diffutils \
         langpacks-en glibc-langpack-en glibc-locale-source \
         procps-ng \
         which findutils \
