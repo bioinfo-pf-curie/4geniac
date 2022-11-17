@@ -1,2 +1,2 @@
-almalinux:8.6
-rockylinux/rockylinux:8.6
+almalinux:8.7
+rockylinux/rockylinux:8.7
