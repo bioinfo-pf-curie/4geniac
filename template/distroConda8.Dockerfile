@@ -28,7 +28,11 @@ RUN wget "${MINICONDA_URL}" -O miniconda.sh -q && \
     find /usr/local/conda/ -follow -type f -name '*.js.map' -delete && \
     /usr/local/conda/bin/conda clean -afy && \
     ln -s /usr/local/conda/bin/conda /usr/local/bin/conda
-    
+
+SHELL ["/bin/bash", "--login", "-c"]    
+
+RUN conda install -c conda-forge micromamba=1.4.9=0 && \
+	conda clean --all -y
 
 ENV PATH /usr/local/conda/bin:$PATH
 
