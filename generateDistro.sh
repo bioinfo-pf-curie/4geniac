@@ -20,14 +20,14 @@ docker_push_folder="4geniac/"
 force_mode="false"
 mandatory_arg=0
 
-while getopts d:f:r:h arg_value; do
+while getopts d:fr:h arg_value; do
     case "${arg_value}" in
         d)
             option=${OPTARG}
             mandatory_arg=$((${mandatory_arg} + 1))
             ;;
         f)
-            force_mode=${OPTARG}
+            force_mode="true"
             ;;
         r)
             docker_push_folder=${OPTARG}
