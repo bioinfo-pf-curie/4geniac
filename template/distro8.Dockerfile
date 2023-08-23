@@ -16,7 +16,10 @@ RUN dnf install -y epel-release \
         langpacks-en glibc-langpack-en glibc-locale-source \
         procps-ng \
         which findutils \
-        wget && \
-    dnf clean all && \
-    localedef --no-archive -i en_US -f UTF-8 en_US.UTF-8
+        wget
+
+RUN dnf clean all && \
+    dnf makecache
+
+RUN localedef --no-archive -i en_US -f UTF-8 en_US.UTF-8
 

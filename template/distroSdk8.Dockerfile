@@ -25,6 +25,7 @@ RUN dnf install -y \
          libarchive \
          libtool \
          libstdc++-devel \
-         pkgconf && \
-    dnf clean all
+         pkgconf
 
+RUN dnf clean all && \
+    dnf makecache
