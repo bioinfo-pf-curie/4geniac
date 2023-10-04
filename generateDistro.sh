@@ -65,10 +65,10 @@ set -oue pipefail
 #########################
 
 DOCKER_REGISTRY_URL="https://registry.hub.docker.com/v2/repositories/4geniac"
-DOCKER_REGISTRY_URL="https://registry.hub.docker.com/v2/repositories/4geniac"
 GIT_COMMIT=$(git rev-parse --short HEAD)
 LINUX_DISTRO_FILE="linuxDistroVersion.txt"
 CONDA_RELEASE_FILE="condaRelease.txt"
+
 
 
 
@@ -82,6 +82,9 @@ function generateDistro () {
   for distroVersion in $(cat ${LINUX_DISTRO_FILE}); do
 
     distro=${prefix}${distroVersion%%:*}
+	if [[ ${optArgs} != "" ]]; then
+		distroVersion=$(echo ${distroVersion} | sed -e 's|ubi.*:|redhat:|g')
+	fi
     fromDistro=$(echo ${prefix}${distroVersion} | sed -e 's|/.*/|/|g') ### for rockylinux/rockylinux (because there is a slash)
     repo=${distro#4geniac/}
     repo=${repo%/*}
@@ -102,6 +105,7 @@ function generateDistro () {
       echo -e "\necho \"build: 4geniac/${repo}:${version}\"\n"
       echo -e "docker build --no-cache=true \\
          --build-arg DISTRO=\""${fromDistro}"\" \\
+         --build-arg DISTRO_VERSION=\""${versionNumber}"\" \\
          --build-arg BUILD_DATE=\"\$(date --rfc-3339=seconds)\" \\
          --build-arg GIT_COMMIT=\""${GIT_COMMIT}"\" \\
          ${optArgs} \\
