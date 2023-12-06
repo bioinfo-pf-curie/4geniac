@@ -1,6 +1,2 @@
-almalinux:8.8
-rockylinux/rockylinux:8.8
-redhat/ubi8:8.8
-almalinux:9.2
-rockylinux/rockylinux:9.2
-redhat/ubi9:9.2
+almalinux:9.3
+rockylinux/rockylinux:9.3

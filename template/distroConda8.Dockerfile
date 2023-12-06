@@ -31,7 +31,7 @@ RUN wget "${MINICONDA_URL}" -O miniconda.sh -q && \
 
 SHELL ["/bin/bash", "--login", "-c"]    
 
-RUN conda install -c conda-forge micromamba=1.4.9=0 && \
+RUN conda install -c conda-forge micromamba=1.5.3=0 && \
 	conda clean --all -y
 
 ENV PATH /usr/local/conda/bin:$PATH
