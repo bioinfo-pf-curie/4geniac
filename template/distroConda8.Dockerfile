@@ -1,7 +1,10 @@
+# check=skip=InvalidDefaultArgInFrom
+
 ARG DISTRO
 
 FROM ${DISTRO}
 
+ARG DISTRO
 ARG GIT_COMMIT
 ARG BUILD_DATE
 
@@ -31,8 +34,8 @@ RUN wget "${MINICONDA_URL}" -O miniconda.sh -q && \
 
 SHELL ["/bin/bash", "--login", "-c"]    
 
-RUN conda install -c conda-forge micromamba=1.5.3=0 && \
+RUN conda install -c conda-forge micromamba=2.0.8=0 && \
 	conda clean --all -y
 
-ENV PATH /usr/local/conda/bin:$PATH
+ENV PATH=/usr/local/conda/bin:$PATH
 

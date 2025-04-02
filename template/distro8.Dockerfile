@@ -1,3 +1,5 @@
+# check=skip=InvalidDefaultArgInFrom
+
 ARG DISTRO
 
 FROM ${DISTRO}

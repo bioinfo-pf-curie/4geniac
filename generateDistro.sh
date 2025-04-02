@@ -103,7 +103,7 @@ function generateDistro () {
   
     if [[ ${already_exist} != 1 ]]; then
       echo -e "\necho \"build: 4geniac/${repo}:${version}\"\n"
-      echo -e "docker build --no-cache=true \\
+      echo -e "docker buildx build --no-cache=true \\
          --build-arg DISTRO=\""${fromDistro}"\" \\
          --build-arg DISTRO_VERSION=\""${versionNumber}"\" \\
          --build-arg BUILD_DATE=\"\$(date --rfc-3339=seconds)\" \\

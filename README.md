@@ -2,6 +2,15 @@
 
 This repository provides a script to build and push on the [4geniac](https://hub.docker.com/u/4geniac) docker hub registry the containers which are used by [Geniac](https://geniac.readthedocs.io) to build the docker and singularity containers for each tool.
 
+## Requirement
+
+`docker 28.0.1` or greater.
+
+`docker-buildx 0.21.2` or greater.
+
+To install `docker` and `docker-buildx`, see [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/).
+
+
 ## Usage
 
 The script `generateDistro.sh` allows the generation of the containers for several community-supported Linux distributions which are binary-compatible with Red Hat Enterprise Linux (RHEL). For each Linux distribution version listed in the file `linuxDistroVersion.txt`, it outputs a bash script which can build and push on the `4geniac` docker hub registry the following tags:
