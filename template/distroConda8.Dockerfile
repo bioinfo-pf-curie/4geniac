@@ -15,15 +15,13 @@ LABEL org.opencontainers.image.title="${DISTRO}" \
       org.opencontainers.image.source="https://github.com/bioinfo-pf-curie/4geniac"
 
 ARG CONDA_RELEASE
-ARG SHA256SUM
-ARG MINICONDA_URL="https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_RELEASE}-Linux-x86_64.sh"
+ARG MINIFORGE_URL="https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-${CONDA_RELEASE}-Linux-x86_64.sh"
 
-RUN wget "${MINICONDA_URL}" -O miniconda.sh -q && \
+RUN wget "${MINIFORGE_URL}" -O miniforge.sh -q && \
     echo "${SHA256SUM} miniconda.sh" > shasum && \
-    sha256sum --check --status shasum && \
     mkdir -p /usr/local/ && \
-    sh miniconda.sh -b -p /usr/local/conda && \
-    rm miniconda.sh shasum && \
+    sh miniforge.sh -b -p /usr/local/conda && \
+    rm miniforge.sh && \
     ln -s /usr/local/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /usr/local/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc && \

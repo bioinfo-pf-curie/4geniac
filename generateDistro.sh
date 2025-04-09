@@ -142,8 +142,8 @@ case "${option}" in
     prefix="4geniac/"
     template="template/distroConda"
     while read condaVersion; do
-      optArgs="--build-arg CONDA_RELEASE=\"${condaVersion% *}\" --build-arg SHA256SUM=\"${condaVersion#* }\""
-      suffix="_conda-${condaVersion% *}"
+      optArgs="--build-arg CONDA_RELEASE=\"${condaVersion% *}\" "
+      suffix="_miniforge-${condaVersion% *}"
       generateDistro
     done < ${CONDA_RELEASE_FILE}
     ;;
@@ -152,7 +152,7 @@ case "${option}" in
     template="template/distroSdk"
     while read condaVersion; do
       optArgs="--build-arg CONDA_RELEASE=\"${condaVersion% *}\""
-      suffix="_sdk-conda-${condaVersion% *}"
+      suffix="_sdk-miniforge-${condaVersion% *}"
       generateDistro
     done < ${CONDA_RELEASE_FILE}
     ;;

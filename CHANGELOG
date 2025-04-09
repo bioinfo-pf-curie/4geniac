@@ -1,0 +1,4 @@
+2025-04-09
+
+Use Miniforge instead of Miniconda to avoid license issue with the conda defaults channel. 
+Docker containers have been renamed, e.g.: rockylinux:9.5_miniforge-24.11.3-2 instead of rockylinux:9.5_conda-24.11.3-2
