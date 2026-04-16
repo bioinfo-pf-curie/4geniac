@@ -1,2 +1,2 @@
-almalinux:9.5
-rockylinux/rockylinux:9.5
+almalinux:9.7
+rockylinux/rockylinux:9.7
